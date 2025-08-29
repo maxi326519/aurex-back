@@ -16,7 +16,7 @@ router.post("/", async (req: Request, res: Response) => {
   }
 });
 
-router.post("/token", verificarToken, async (req: Request, res: Response) => {
+router.post("/token", verificarToken , async (req: Request, res: Response) => {
   try {
     const { user } = req.body;
 

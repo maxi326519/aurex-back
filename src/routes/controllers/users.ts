@@ -1,5 +1,6 @@
-const { User } = require("../../../db");
-const bcrypt = require("bcrypt");
+import { UserRol } from "../../interfaces/UserTS";
+import { User } from "../../db";
+import bcrypt from "bcrypt";
 
 const setUser = async (user: any) => {
   if (!user.name) throw new Error("missing parameter (name)");
@@ -35,7 +36,7 @@ const getAllUsers = async () => {
 };
 
 const updateUser = async (updateUser: any) => {
-  const rol = ["ADMIN", "USER"];
+  const rol = Object.values(UserRol);
 
   // Verify paramenters
   if (!updateUser.name) throw new Error("missing 'name' parameter");

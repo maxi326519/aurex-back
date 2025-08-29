@@ -5,17 +5,20 @@ import morgan from "morgan";
 
 // Import Routes
 import { verificarToken } from "./routes/controllers/verificacion";
-import user from "./routes/users";
 import login from "./routes/login";
+import user from "./routes/users";
+import products from "./routes/products";
+import categories from "./routes/categories";
+import storage from "./routes/storage";
+import stock from "./routes/stock";
 import movements from "./routes/movements";
-import wallets from "./routes/wallets";
 
 // Ceate app
 const app = express();
 
 // Cors options
 const corsOptions = {
-  origin: "*",
+  origin: ["http://localhost:5173", "https://aurex.mipanel.online"],
   credentials: true,
   methods: "GET, PATCH, POST, OPTIONS, PUT, DELETE",
   allowedHeaders:
@@ -31,8 +34,13 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(morgan("dev"));
 
 // Use routes
-app.use("/login", login);
-app.use("/users", /* verificarToken, */ user);
+app.use("/api/login", login);
+app.use("/api/users", verificarToken, user);
+app.use("/api/products", verificarToken, products);
+app.use("/api/categories", verificarToken, categories);
+app.use("/api/storages", verificarToken, storage);
+app.use("/api/stock", verificarToken, stock);
+app.use("/api/movements", verificarToken, movements);
 
 // Implementar un protocolo de HTTPS de Security
 // Error catching endware.

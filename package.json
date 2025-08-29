@@ -27,6 +27,7 @@
     "sequelize": "^6.35.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.13",
     "@types/ejs": "^3.1.2",

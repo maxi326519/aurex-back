@@ -1,12 +1,27 @@
-export interface UserTS {
+export interface User {
   id?: string;
-  rol: UserRol;
   name: string;
   email: string;
-  password: string;
+  rol: UserRol;
+  status: UserStatus;
+  password?: string;
+  CompanyId?: string;
 }
 
 export enum UserRol {
-  ADMIN = "ADMIN",
-  USER = "USER"
+  ADMIN = "Administrador",
+  DISPACHER = "Despachador",
+  SELLER = "Vendedor",
+  CLIENT = "Comprador",
+}
+
+export enum UserStatus {
+  WAITING = "En espera",
+  ACTIVE = "Activo",
+  BLOCKED = "Bloqueado",
+}
+
+export interface LoginData {
+  email: string;
+  password: string;
 }

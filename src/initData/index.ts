@@ -1,5 +1,5 @@
 import { conn, User } from "../db";
-import { UserRol } from "../interfaces/UserTS";
+import { UserRol, UserStatus } from "../interfaces/UserTS";
 import readline from "readline";
 
 const bcrypt = require("bcrypt");
@@ -30,27 +30,42 @@ export async function initData() {
   );
 }
 
+async function createUsers() {
+  const initUsers = [
+    {
+      email: "admin@mipanel.online",
+      rol: UserRol.ADMIN,
+      password: await bcrypt.hash("123qwe", 10),
+    },
+    {
+      email: "comprador@mipanel.online",
+      rol: UserRol.CLIENT,
+      password: await bcrypt.hash("123qwe", 10),
+    },
+    {
+      email: "vendedor@mipanel.online",
+      rol: UserRol.SELLER,
+      password: await bcrypt.hash("123qwe", 10),
+    },
+  ];
+
+  for (const user of initUsers) {
+    try {
+      await User.create({
+        ...user,
+        name: user.email.split("@")[0],
+        status: UserStatus.ACTIVE,
+      });
+    } catch (error) {
+      console.log("Error to create user:", user.email);
+    }
+  }
+}
+
 async function loadData(): Promise<void> {
   console.log("Creating tables...");
 
   await conn.sync({ force: true });
 
-  // Get any Admin
-  const adminUser = await User.findOne({ where: { rol: "ADMIN" } });
-
-  // If admin dont exist create it
-  if (!adminUser) {
-    // User admin data
-    const user = {
-      name: "ADMIN",
-      rol: UserRol.ADMIN,
-      email: "admin@gmail.com",
-      password: await bcrypt.hash("321654987", 10),
-    };
-
-    console.log("User loaded");
-
-    // Create user
-    await User.create(user).catch((error) => console.log(error));
-  }
+  await createUsers();
 }

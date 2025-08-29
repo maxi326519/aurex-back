@@ -1,39 +1,30 @@
 export const model = (sequelize: any, DataTypes: any) => {
   sequelize.define(
-    "User",
+    "Orders",
     {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      name: {
+      date: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      title: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      email: {
+      content: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      photo: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      rol: {
-        type: DataTypes.ENUM(
-          "Administrador",
-          "Despachador",
-          "Vendedor",
-          "Comprador"
-        ),
+      price: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
-      status: {
-        type: DataTypes.ENUM("En espera", "Activo", "Bloqueado"),
-        allowNull: false,
-      },
-      password: {
-        type: DataTypes.STRING,
+      clicks: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
     },
