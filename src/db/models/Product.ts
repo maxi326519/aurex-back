@@ -1,5 +1,3 @@
-import { allowedNodeEnvironmentFlags } from "process";
-
 export const model = (sequelize: any, DataTypes: any) => {
   sequelize.define(
     "Product",

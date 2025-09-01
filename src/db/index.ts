@@ -48,8 +48,17 @@ for (const modelDefiner of modelDefiners) {
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-export const { Categories, Movements, Product, Stock, Storage, User } =
-  sequelize.models;
+export const {
+  Categories,
+  Movements,
+  Product,
+  Stock,
+  Storage,
+  User,
+  Post,
+  Order,
+  OrderItem,
+} = sequelize.models;
 
 Categories.hasMany(Product);
 
@@ -70,6 +79,9 @@ Movements.belongsTo(User);
 Movements.belongsTo(Storage);
 Movements.belongsTo(Stock);
 Movements.belongsTo(Product);
+
+Order.hasMany(OrderItem, { foreignKey: "orderId", as: "items" });
+OrderItem.belongsTo(Order, { foreignKey: "orderId" });
 
 export const conn = sequelize;
 export const models = sequelize.models;

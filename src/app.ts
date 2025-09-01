@@ -12,6 +12,8 @@ import categories from "./routes/categories";
 import storage from "./routes/storage";
 import stock from "./routes/stock";
 import movements from "./routes/movements";
+import posts from "./routes/posts";
+import orders from "./routes/orders";
 
 // Ceate app
 const app = express();
@@ -41,6 +43,8 @@ app.use("/api/categories", verificarToken, categories);
 app.use("/api/storages", verificarToken, storage);
 app.use("/api/stock", verificarToken, stock);
 app.use("/api/movements", verificarToken, movements);
+app.use("/api/posts", verificarToken, posts);
+app.use("/api/orders", verificarToken, orders);
 
 // Implementar un protocolo de HTTPS de Security
 // Error catching endware.

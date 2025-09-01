@@ -35,16 +35,25 @@ async function createUsers() {
     {
       email: "admin@mipanel.online",
       rol: UserRol.ADMIN,
+      status: UserStatus.ACTIVE,
       password: await bcrypt.hash("123qwe", 10),
     },
     {
       email: "comprador@mipanel.online",
       rol: UserRol.CLIENT,
+      status: UserStatus.ACTIVE,
       password: await bcrypt.hash("123qwe", 10),
     },
     {
       email: "vendedor@mipanel.online",
       rol: UserRol.SELLER,
+      status: UserStatus.ACTIVE,
+      password: await bcrypt.hash("123qwe", 10),
+    },
+    {
+      email: "vendedor2@mipanel.online",
+      rol: UserRol.SELLER,
+      status: UserStatus.WAITING,
       password: await bcrypt.hash("123qwe", 10),
     },
   ];
@@ -54,7 +63,6 @@ async function createUsers() {
       await User.create({
         ...user,
         name: user.email.split("@")[0],
-        status: UserStatus.ACTIVE,
       });
     } catch (error) {
       console.log("Error to create user:", user.email);

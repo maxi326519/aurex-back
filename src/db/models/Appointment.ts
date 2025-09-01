@@ -1,6 +1,6 @@
 export const model = (sequelize: any, DataTypes: any) => {
   sequelize.define(
-    "Orders",
+    "Receptions",
     {
       id: {
         type: DataTypes.UUID,
@@ -11,20 +11,18 @@ export const model = (sequelize: any, DataTypes: any) => {
         type: DataTypes.DATE,
         allowNull: false,
       },
-      title: {
+      type: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      content: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      price: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      clicks: {
-        type: DataTypes.INTEGER,
+      state: {
+        type: DataTypes.ENUM(
+          "Pendiente",
+          "Recibido",
+          "Pickeado",
+          "En revisión",
+          "Completado"
+        ),
         allowNull: false,
       },
     },
