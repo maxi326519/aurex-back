@@ -7,6 +7,7 @@ import morgan from "morgan";
 import { verificarToken } from "./routes/controllers/verificacion";
 import login from "./routes/login";
 import user from "./routes/users";
+import receptions from "./routes/receptions";
 import products from "./routes/products";
 import categories from "./routes/categories";
 import storage from "./routes/storage";
@@ -14,13 +15,18 @@ import stock from "./routes/stock";
 import movements from "./routes/movements";
 import posts from "./routes/posts";
 import orders from "./routes/orders";
+import path from "path";
 
 // Ceate app
 const app = express();
 
 // Cors options
 const corsOptions = {
-  origin: ["http://localhost:5173", "https://aurex.mipanel.online"],
+  origin: [
+    "https://aurex.mipanel.online",
+    "http://localhost:5173",
+    "http://localhost:5174",
+  ],
   credentials: true,
   methods: "GET, PATCH, POST, OPTIONS, PUT, DELETE",
   allowedHeaders:
@@ -35,9 +41,11 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(morgan("dev"));
 
-// Use routes
+app.use("/api/uploads", express.static(path.join(process.cwd(), "uploads")));
 app.use("/api/login", login);
 app.use("/api/users", verificarToken, user);
+app.use("/api/receptions", verificarToken, receptions);
+app.use("/api/products", verificarToken, products);
 app.use("/api/products", verificarToken, products);
 app.use("/api/categories", verificarToken, categories);
 app.use("/api/storages", verificarToken, storage);

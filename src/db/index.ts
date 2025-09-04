@@ -1,7 +1,7 @@
-require("dotenv").config();
 import { Sequelize, DataTypes } from "sequelize";
 import path from "path";
 import fs from "fs";
+require("dotenv").config();
 
 const { DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME } = process.env;
 
@@ -58,6 +58,7 @@ export const {
   Post,
   Order,
   OrderItem,
+  Reception
 } = sequelize.models;
 
 Categories.hasMany(Product);
@@ -74,6 +75,7 @@ Storage.hasMany(Stock);
 Storage.hasMany(Movements);
 
 User.hasMany(Movements);
+User.hasMany(Reception);
 
 Movements.belongsTo(User);
 Movements.belongsTo(Storage);
@@ -82,6 +84,8 @@ Movements.belongsTo(Product);
 
 Order.hasMany(OrderItem, { foreignKey: "orderId", as: "items" });
 OrderItem.belongsTo(Order, { foreignKey: "orderId" });
+
+Reception.belongsTo(User);
 
 export const conn = sequelize;
 export const models = sequelize.models;

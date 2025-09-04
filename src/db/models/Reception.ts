@@ -1,6 +1,6 @@
 export const model = (sequelize: any, DataTypes: any) => {
   sequelize.define(
-    "Receptions",
+    "Reception",
     {
       id: {
         type: DataTypes.UUID,
@@ -11,18 +11,21 @@ export const model = (sequelize: any, DataTypes: any) => {
         type: DataTypes.DATE,
         allowNull: false,
       },
-      type: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
       state: {
         type: DataTypes.ENUM(
           "Pendiente",
-          "Recibido",
-          "Pickeado",
+          "Aprobado",
           "En revisión",
           "Completado"
         ),
+        allowNull: false,
+      },
+      sheetFile: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      remittance: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
     },
