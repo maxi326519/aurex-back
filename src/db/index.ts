@@ -55,10 +55,11 @@ export const {
   Stock,
   Storage,
   User,
+  Business,
   Post,
   Order,
   OrderItem,
-  Reception
+  Reception,
 } = sequelize.models;
 
 Categories.hasMany(Product);
@@ -74,8 +75,11 @@ Stock.hasMany(Movements);
 Storage.hasMany(Stock);
 Storage.hasMany(Movements);
 
+Business.belongsTo(User);
+
 User.hasMany(Movements);
 User.hasMany(Reception);
+User.hasOne(Business);
 
 Movements.belongsTo(User);
 Movements.belongsTo(Storage);
@@ -85,7 +89,12 @@ Movements.belongsTo(Product);
 Order.hasMany(OrderItem, { foreignKey: "orderId", as: "items" });
 OrderItem.belongsTo(Order, { foreignKey: "orderId" });
 
+Post.belongsTo(Product, { foreignKey: "productId", as: "product" });
+OrderItem.belongsTo(Product, { foreignKey: "productId", as: "product" });
+Product.hasMany(OrderItem, { foreignKey: "productId", as: "orderItems" });
+
 Reception.belongsTo(User);
+
 
 export const conn = sequelize;
 export const models = sequelize.models;

@@ -7,6 +7,8 @@ import {
   disableUser,
   deleteUser,
 } from "./controllers/users";
+import { verificarAdmin } from "./controllers/verificacion";
+import { User, Business } from "../db";
 
 const router = Router();
 
@@ -80,6 +82,26 @@ router.delete("/:id", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error deleting user" });
+  }
+});
+
+// Ruta para obtener vendedores con datos de empresa (solo administradores)
+router.get("/sellers", verificarAdmin, async (req: Request, res: Response) => {
+  try {
+    const sellers = await User.findAll({
+      where: { rol: "Vendedor" },
+      attributes: { exclude: ["password"] },
+      include: [{
+        model: Business,
+        as: 'Business',
+        required: true // Solo incluir usuarios que tengan negocio
+      }]
+    });
+
+    res.status(200).json(sellers);
+  } catch (error: any) {
+    console.error("Error getting sellers with business:", error);
+    res.status(500).json({ error: error.message });
   }
 });
 

@@ -8,6 +8,7 @@ import { verificarToken } from "./routes/controllers/verificacion";
 import login from "./routes/login";
 import user from "./routes/users";
 import receptions from "./routes/receptions";
+import storages from "./routes/storage";
 import products from "./routes/products";
 import categories from "./routes/categories";
 import storage from "./routes/storage";
@@ -15,6 +16,7 @@ import stock from "./routes/stock";
 import movements from "./routes/movements";
 import posts from "./routes/posts";
 import orders from "./routes/orders";
+import business from "./routes/business";
 import path from "path";
 
 // Ceate app
@@ -42,17 +44,18 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(morgan("dev"));
 
 app.use("/api/uploads", express.static(path.join(process.cwd(), "uploads")));
-app.use("/api/login", login);
+app.use("/api/sesion", login);
 app.use("/api/users", verificarToken, user);
 app.use("/api/receptions", verificarToken, receptions);
 app.use("/api/products", verificarToken, products);
-app.use("/api/products", verificarToken, products);
+app.use("/api/storages", verificarToken, storages);
 app.use("/api/categories", verificarToken, categories);
 app.use("/api/storages", verificarToken, storage);
 app.use("/api/stock", verificarToken, stock);
 app.use("/api/movements", verificarToken, movements);
 app.use("/api/posts", verificarToken, posts);
 app.use("/api/orders", verificarToken, orders);
+app.use("/api/business", verificarToken, business);
 
 // Implementar un protocolo de HTTPS de Security
 // Error catching endware.

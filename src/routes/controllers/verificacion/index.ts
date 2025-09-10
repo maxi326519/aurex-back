@@ -31,4 +31,29 @@ const verificarToken = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { verificarToken };
+const verificarRol = (rolesPermitidos: string[]) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { user } = req.body;
+
+      if (!user) {
+        return res.status(401).json({ error: "User not found in token" });
+      }
+
+      if (!rolesPermitidos.includes(user.rol)) {
+        return res.status(403).json({ 
+          error: `Access denied. Required roles: ${rolesPermitidos.join(", ")}` 
+        });
+      }
+
+      next();
+    } catch (error: any) {
+      console.log(error);
+      res.status(500).json({ error: error.message });
+    }
+  };
+};
+
+const verificarAdmin = verificarRol(["Administrador"]);
+
+export { verificarToken, verificarRol, verificarAdmin };

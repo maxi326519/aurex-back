@@ -1,13 +1,18 @@
+import { StorageTS } from "../../interfaces/StorageTS";
 import { Storage } from "../../db";
 
-const createStorage = async (name: string) => {
+const createStorage = async (storage: StorageTS) => {
   // Verificar si name existe
-  if (!name) throw new Error("missing parameter name");
+  if (!storage.rag) throw new Error("missing parameter 'rag'");
+  if (!storage.site) throw new Error("missing parameter 'site'");
+  if (!storage.positions) throw new Error("missing parameter 'positions'");
+  if (!storage.currentCapacity)
+    throw new Error("missing parameter 'currentCapacity'");
+  if (!storage.totalCapacity)
+    throw new Error("missing parameter 'totalCapacity'");
 
   // Creamos el Storage
-  const newStorage: any = await Storage.create({
-    name: name,
-  });
+  const newStorage: any = await Storage.create({ ...storage });
 
   return newStorage.dataValues;
 };
@@ -20,18 +25,25 @@ const getAllStorage = async () => {
   return storages;
 };
 
-const updateStorage = async (id: string, name: string) => {
-  // Verificamos los parametros
-  if (!name) throw new Error("Missing parameter name");
+const updateStorage = async (storage: StorageTS) => {
+  // Verificar si name existe
+  if (!storage.id) throw new Error("missing parameter 'id'");
+  if (!storage.rag) throw new Error("missing parameter 'rag'");
+  if (!storage.site) throw new Error("missing parameter 'site'");
+  if (!storage.positions) throw new Error("missing parameter 'positions'");
+  if (!storage.currentCapacity)
+    throw new Error("missing parameter 'currentCapacity'");
+  if (!storage.totalCapacity)
+    throw new Error("missing parameter 'totalCapacity'");
 
   // Obtenermos el storage
-  const currentStorage = await Storage.findOne({ where: { id } });
+  const currentStorage = await Storage.findOne({ where: { id: storage.id } });
 
   // Verificamso que exista el storage
   if (!currentStorage) throw new Error();
 
   // Actualizar el nombre del Storage si es necesario
-  await currentStorage?.update({ name: name });
+  await currentStorage?.update({ ...storage });
 
   return currentStorage.dataValues;
 };

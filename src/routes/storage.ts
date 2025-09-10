@@ -1,5 +1,5 @@
-import { Router } from "express";
 import { Request, Response } from "express";
+import { Router } from "express";
 import {
   createStorage,
   getAllStorage,
@@ -12,8 +12,8 @@ const router = Router();
 
 router.post("/", async (req: Request, res: Response) => {
   try {
-    const { name, UserId } = req.body;
-    const newStorage = await createStorage(name);
+    const storage = req.body;
+    const newStorage = await createStorage(storage);
     res.status(200).json(newStorage);
   } catch (error: any) {
     console.log(error);
@@ -32,8 +32,8 @@ router.get("/", async (req: Request, res: Response) => {
 
 router.patch("/", async (req: Request, res: Response) => {
   try {
-    const { id, name, UserId } = req.body;
-    const existingUserIds = await updateStorage(id, name);
+    const storage = req.body;
+    const existingUserIds = await updateStorage(storage);
     res.status(200).json(existingUserIds);
   } catch (error: any) {
     res.status(500).json({ error: error.message });

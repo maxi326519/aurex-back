@@ -1,4 +1,4 @@
-import { UserRol } from "../../interfaces/UserTS";
+import { UserTS, UserRol, UserStatus } from "../../interfaces/UserTS";
 import { User } from "../../db";
 import bcrypt from "bcrypt";
 
@@ -17,8 +17,7 @@ const setUser = async (user: any) => {
 
   // Crea un nuevo usuario con la contraseña hasheada
   const newUser = await User.create({
-    name: user.name,
-    email: user.email,
+    ...user,
     password: hashedPassword, // Almacena la contraseña hasheada en la base de datos
   });
 

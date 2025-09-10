@@ -1,7 +1,32 @@
-import { UserStatus, User as UserTS } from "../../interfaces/UserTS";
+import { UserRol, UserStatus, UserTS } from "../../interfaces/UserTS";
+import { setUser } from "./users";
 import { User } from "../../db";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
+export const registerUser = async (
+  email: string,
+  password: string,
+  rol: UserRol
+) => {
+  const user: UserTS = {
+    name: "Usuario",
+    email,
+    rol,
+    password,
+    status:
+      rol === UserRol.CLIENT
+        ? UserStatus.ACTIVE
+        : rol === UserRol.SELLER
+        ? UserStatus.WAITING
+        : UserStatus.WAITING,
+  };
+
+  console.log(user);
+
+  const newUser = setUser({...user});
+  return newUser;
+};
 
 export const loginUser = async (email: string, password: string) => {
   // Check parameneters
@@ -16,7 +41,7 @@ export const loginUser = async (email: string, password: string) => {
   if (!userData) throw new Error("User not found");
 
   // Verify if the user is current available
-  if (userData.status !== UserStatus.ACTIVE)
+  if (userData.status === UserStatus.BLOCKED)
     throw new Error("This user is not allowed access");
 
   // Check the password with bcrypt

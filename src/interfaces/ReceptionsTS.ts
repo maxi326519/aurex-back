@@ -1,5 +1,5 @@
 import { ProductTS } from "./ProductTS";
-import { User } from "./UserTS";
+import { UserTS } from "./UserTS";
 
 export interface ReceptionTS {
   id?: string;
@@ -9,7 +9,7 @@ export interface ReceptionTS {
   remittance: string;
   products?: ProductTS[];
   userId?: string;
-  user?: Partial<User>;
+  user?: Partial<UserTS>;
 }
 
 export enum ReceptionStatus {
